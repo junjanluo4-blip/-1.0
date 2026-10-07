@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>學習網站推薦</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f4f6fb;--cd:#fff;--tx:#1d2433;--mu:#6b7385;--ac:#4f6df5;--bd:#e2e6ef;--on:#fff;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12151c;--cd:#1c212b;--tx:#e8ebf2;--mu:#9aa3b5;--bd:#2c3340;--ac:#7b93ff;--on:#10131a}}
+:root[data-theme="dark"]{--bg:#12151c;--cd:#1c212b;--tx:#e8ebf2;--mu:#9aa3b5;--bd:#2c3340;--ac:#7b93ff;--on:#10131a}
+:root[data-theme="ocean"]{--bg:#e8f4fb;--cd:#fff;--ac:#0b7bb5;--bd:#cfe4f0;--tx:#0f2a3a;--mu:#51708a;--on:#fff}
+:root[data-theme="forest"]{--bg:#eef5ec;--cd:#fff;--ac:#2f8f4e;--bd:#d6e5d2;--tx:#1c2e20;--mu:#5d7563;--on:#fff}
+:root[data-theme="sakura"]{--bg:#fdf0f4;--cd:#fff;--ac:#d6457a;--bd:#f3d6e0;--tx:#3a1f2a;--mu:#85606f;--on:#fff}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;line-height:1.5}
+.wrap{max-width:960px;margin:0 auto;padding:16px}
+h1{text-align:center;font-size:2rem;margin:12px 0 16px}
+h2{font-size:1.1rem;margin:22px 0 8px}
+a{color:var(--ac)}
+button{font:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--cd);color:var(--tx);border-radius:10px;padding:8px 12px}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+button.pri{background:var(--ac);color:var(--on);border-color:var(--ac);width:100%;margin-top:6px}
+button.on{background:var(--ac);color:var(--on);border-color:var(--ac)}
+input,select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--cd);color:var(--tx);font:inherit;margin:6px 0}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:14px;padding:14px}
+.auth{max-width:360px;margin:24px auto}
+.tabs{display:flex;gap:6px;margin-bottom:8px}
+.tabs button{flex:1}
+.err{color:#d92d20;min-height:1.3em;margin:8px 0 0}
+.sw{text-align:center;color:var(--mu);margin:10px 0 0}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.av{font-size:1.7rem;margin-right:6px;vertical-align:middle}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.site{position:relative}
+.site a{display:block;text-decoration:none;color:inherit}
+.site b{color:var(--ac)}
+.site small{display:block;color:var(--mu)}
+.x{position:absolute;top:6px;right:6px;padding:2px 8px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd)}
+.mu{color:var(--mu)}
+.add{display:grid;gap:2px;margin-top:6px}
+.mask{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:16px}
+.mask .card{width:100%;max-width:380px}
+.pick{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:8px 0 14px}
+.pick button{font-size:1.5rem;padding:6px 0}
+.ths{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 14px}
+
+@keyframes up{from{opacity:0;transform:translateY(14px)}}
+@keyframes down{from{opacity:0;transform:translateY(-12px)}}
+@keyframes fade{from{opacity:0}}
+@keyframes zoom{from{opacity:0;transform:scale(.9) translateY(8px)}}
+@keyframes pulse{50%{transform:scale(1.25)}}
+@keyframes wig{25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
+button{transition:transform .12s,background .2s,border-color .2s}
+button:active{transform:scale(.95)}
+.site{transition:transform .2s,box-shadow .2s,border-color .2s}
+.site:hover{transform:translateY(-3px);box-shadow:0 8px 18px rgba(0,0,0,.14);border-color:var(--ac)}
+.av{display:inline-block}
+.av:hover{animation:wig .5s}
+.pick button.on{animation:pulse .35s}
+.intro h1{animation:down .6s backwards}
+.intro #bar{animation:fade .6s .1s backwards}
+.intro .site{animation:up .5s backwards;animation-delay:calc(var(--i,0)*35ms)}
+.pop{animation:fade .2s}
+.pop .card{animation:zoom .28s cubic-bezier(.2,.9,.3,1.2)}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
+footer{text-align:center;color:var(--mu);font-size:.85rem;margin:32px 0 8px}
+</style>
+</head>
+<body>
+<div class="wrap"><div id="bar"></div><h1>學習網站推薦</h1><div id="app"></div><footer>版本 1.1</footer></div>
+<script>
+const AV=['😆','👦🏻','☺️','🤫','🤓','🫪','😉','😭','🥰','🥹','😀','🙂'];
+const DEF=AV[AV.length-1];
+const TH={light:'淺色',dark:'深色',ocean:'海洋',forest:'森林',sakura:'櫻花'};
+const ADMIN='1017';
+const CATS=['📚 台灣本土主流暨 AI 智慧學習平台','🤖 全球與台灣常用的 AI 學習助理與工具','💻 程式設計與運算思維學習平台','🎮 遊戲化與互動測驗教學網站','🔬 專業學科、語言與素養深化工具'];
+const SITES=[
+[0,'均一教育平台','https://www.junyiacademy.org/','K-12 免費影片與練習'],
+[0,'教育部因材網','https://adl.edu.tw/','含 Cool English、亞當 AI 等延伸'],
+[0,'PaGamO','https://www.pagamo.org/','遊戲化線上學習平台'],
+[0,'高雄 E-game 學習平台','https://egame.kh.edu.tw/','U 世代島嶼學習樂園'],
+[0,'台北酷課雲 CooC','https://cooc.tp.edu.tw/','臺北市線上課程與資源'],
+[1,'Khanmigo','https://www.khanmigo.ai/','可汗學院 AI 助教'],
+[1,'Quizlet','https://quizlet.com/','閃卡與 Q-Chat AI'],
+[1,'Duolingo 多鄰國','https://www.duolingo.com/','遊戲化語言學習'],
+[1,'ELSA Speak','https://elsaspeak.com/','AI 英語口說與發音'],
+[1,'Socratic by Google','https://socratic.org/','拍照提問、解題輔助'],
+[1,'Photomath','https://photomath.com/','掃描算式、步驟解說'],
+[1,'WolframAlpha','https://www.wolframalpha.com/','運算知識引擎'],
+[2,'Scratch','https://scratch.mit.edu/','MIT 積木式程式創作'],
+[2,'Code.org','https://code.org/','一小時玩程式與課程'],
+[2,'Machine Learning for Kids','https://machinelearningforkids.co.uk/','動手訓練 AI 模型'],
+[2,'Codewars','https://www.codewars.com/','程式解題練功'],
+[2,'Replit','https://replit.com/','線上寫程式環境'],
+[3,'Kahoot!','https://kahoot.com/','即時搶答測驗'],
+[3,'Quizizz','https://quizizz.com/','自訂進度的測驗遊戲'],
+[3,'Wordwall','https://wordwall.net/','互動小遊戲與教材製作'],
+[3,'Blooket','https://www.blooket.com/','題庫遊戲對戰'],
+[3,'Gimkit','https://www.gimkit.com/','賺虛擬金幣的測驗'],
+[3,'Quizlet Live','https://quizlet.com/live','團隊合作搶答'],
+[4,'PaGamO 品學堂（閱讀素養）','https://www.pagamo.org/','線上閱讀素養學習'],
+[4,'LingQ','https://www.lingq.com/','沉浸式閱讀聽力學語言'],
+[4,'Memrise 曼底語思','https://www.memrise.com/','真人影片學語言'],
+[4,'GeoGebra','https://www.geogebra.org/','動態幾何與數學工具'],
+[4,'PhET 互動模擬','https://phet.colorado.edu/','科羅拉多大學科學模擬'],
+[4,'Edpuzzle','https://edpuzzle.com/','互動式影片課程'],
+[4,'Coursera','https://www.coursera.org/','大學線上課程'],
+[4,'edX','https://www.edx.org/','名校開放課程']
+];
+
+const $=s=>document.querySelector(s);
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+let users=[],extra=[],cur=ld('cur',null),busy=false;
+const API='';// ← 貼上 Apps Script「網頁應用程式網址」（結尾是 /exec）
+async function api(action,d={}){
+  if(!API)return{ok:false,err:'尚未設定後端網址'};
+  try{
+    const r=await(await fetch(API,{method:'POST',body:JSON.stringify({action,...d})})).json();
+    if(!r.ok&&r.code==='auth'){cur=null;sv('cur',null)}
+    return r;
+  }catch(e){return{ok:false,err:'連線失敗，請稍後再試'}}
+}
+async function loadSites(){const r=await api('list');if(r.ok)extra=r.sites}
+async function loadUsers(){const r=await api('users',{token:cur.tok});if(r.ok)users=r.users}
+let tab='user',mode='login',msg='',showSet=false,showLogin=false,first=true,pop=false;
+const me=()=>cur&&cur.t==='u'?cur:null;
+
+function auth(){
+  const on=v=>tab===v?'on':'';
+  let h=`<div class="mask"><div class="card auth"><div class="row" style="border:0;padding:0 0 8px"><b>登入</b><button data-act="closelogin" aria-label="關閉">✕</button></div><div class="tabs"><button class="${on('user')}" data-act="tab" data-v="user">一般登入</button><button class="${on('admin')}" data-act="tab" data-v="admin">管理員</button></div>`;
+  if(tab==='admin'){
+    h+=`<input id="ap" type="password" placeholder="管理員密碼" autocomplete="off"><button class="pri" data-act="adm">管理員登入</button>`;
+  }else if(mode==='reg'){
+    h+=`<input id="un" placeholder="名字" autocomplete="username"><input id="pw" type="password" placeholder="密碼" autocomplete="new-password"><button class="pri" data-act="reg">註冊</button><p class="sw">已經有帳號？<a href="#" data-act="mode" data-v="login">回到登入</a></p>`;
+  }else{
+    h+=`<input id="un" placeholder="名字" autocomplete="username"><input id="pw" type="password" placeholder="密碼" autocomplete="current-password"><button class="pri" data-act="login">登入</button><p class="sw">還沒有帳號？<a href="#" data-act="mode" data-v="reg">註冊</a></p>`;
+  }
+  return h+`<p class="err">${esc(msg)}</p></div></div>`;
+}
+
+function admin(){
+  const L=users.length?users.map(x=>`<div class="row"><span>${x.a} ${esc(x.n)}</span><button data-act="deluser" data-v="${esc(x.n)}">刪除</button></div>`).join(''):'<p class="mu">還沒有人註冊</p>';
+  return `<div class="card"><b>👑 管理員面板</b><p class="mu" style="margin:8px 0 0">已註冊使用者（${users.length}）</p>${L}<p class="mu" style="margin:12px 0 0">新增推薦網站</p><div class="add"><select id="nc">${CATS.map((c,i)=>`<option value="${i}">${c}</option>`).join('')}</select><input id="nn" placeholder="網站名稱"><input id="nu" placeholder="網址，例如 https://example.com"><button class="pri" data-act="addsite">新增網站</button></div></div>`;
+}
+
+function settings(u){
+  return `<div class="mask"><div class="card"><b>個人設定</b><p class="mu" style="margin:6px 0 0">選擇頭像</p><div class="pick">${AV.map(a=>`<button class="${u.a===a?'on':''}" data-act="av" data-v="${a}">${a}</button>`).join('')}</div><p class="mu" style="margin:0">選擇主題</p><div class="ths">${Object.keys(TH).map(k=>`<button class="${u.th===k?'on':''}" data-act="th" data-v="${k}">${TH[k]}</button>`).join('')}</div><button class="pri" data-act="done">完成</button></div></div>`;
+}
+
+function bar(){
+  if(!cur)return `<div class="bar card"><span class="mu">登入後可以自訂頭像與主題</span><button class="on" data-act="openlogin">登入</button></div>`;
+  const u=me(),isAd=cur.t==='a';
+  return `<div class="bar card"><span><span class="av">${isAd?'👑':u.a}</span><b>${isAd?'管理員':esc(u.n)}</b></span><span>${isAd?'':'<button data-act="set">⚙️ 設定</button> '}<button data-act="out">登出</button></span></div>`;
+}
+function main(){
+  const isAd=cur&&cur.t==='a',all=[...SITES,...extra];
+  let h='';
+  if(isAd)h+=admin();
+  CATS.forEach((c,i)=>{
+    h+=`<h2>${c}</h2><div class="grid">`+all.filter(s=>s[0]===i).map(s=>`<div class="card site"><a href="${esc(s[2])}" target="_blank" rel="noopener noreferrer"><b>${esc(s[1])}</b><small>${esc(s[3])}</small></a>${isAd&&extra.includes(s)?`<button class="x" data-act="delsite" data-v="${esc(s[4])}" aria-label="刪除網站">✕</button>`:''}</div>`).join('')+'</div>';
+  });
+  return h;
+}
+
+function render(){
+  if(cur&&cur.t==='u'&&!me()){cur=null;sv('cur',null)}
+  const r=document.documentElement,t=me()&&me().th;
+  if(t)r.dataset.theme=t;else delete r.dataset.theme;
+  const m=me();$('#bar').innerHTML=bar();$('#app').innerHTML=main()+(showSet&&m?settings(m):'')+(showLogin&&!cur?auth():'');
+  document.querySelector('.wrap').classList.toggle('intro',first);
+  if(first)document.querySelectorAll('.site').forEach((el,i)=>el.style.setProperty('--i',i));
+  first=false;
+  if(pop){document.querySelectorAll('.mask').forEach(e=>e.classList.add('pop'));pop=false}
+}
+
+const A={
+  tab(v){tab=v;msg=''},
+  mode(v){mode=v;msg=''},
+  openlogin(){showLogin=true;pop=true;msg='';tab='user';mode='login'},
+  closelogin(){showLogin=false;msg=''},
+  async adm(){
+    const r=await api('adminLogin',{p:$('#ap').value});
+    if(r.ok){cur={t:'a',tok:r.token};sv('cur',cur);msg='';showLogin=false;await loadUsers()}else msg=r.err;
+  },
+  async login(){
+    const r=await api('login',{n:$('#un').value.trim(),p:$('#pw').value});
+    if(r.ok){cur={t:'u',tok:r.token,...r.user};sv('cur',cur);msg='';showLogin=false}else msg=r.err;
+  },
+  async reg(){
+    const n=$('#un').value.trim(),p=$('#pw').value;
+    if(!n||!p){msg='請輸入名字和密碼';return}
+    const r=await api('register',{n,p});
+    if(r.ok){cur={t:'u',tok:r.token,...r.user};sv('cur',cur);msg='';showLogin=false;showSet=true;pop=true}else msg=r.err;
+  },
+  out(){cur=null;sv('cur',null);mode='login';tab='user';showSet=false;users=[]},
+  set(){showSet=true;pop=true},
+  done(){showSet=false},
+  av(v){cur.a=v;sv('cur',cur);api('update',{token:cur.tok,a:v,th:cur.th})},
+  th(v){cur.th=v;sv('cur',cur);api('update',{token:cur.tok,a:cur.a,th:v})},
+  async deluser(v){await api('delUser',{token:cur.tok,n:v});await loadUsers()},
+  async addsite(){
+    const n=$('#nn').value.trim();let u=$('#nu').value.trim();
+    if(!n||!u)return;
+    if(!/^https?:\/\//i.test(u))u='https://'+u;
+    const r=await api('addSite',{token:cur.tok,cat:+$('#nc').value,name:n,url:u,desc:'管理員新增'});
+    if(r.ok)await loadSites();else alert(r.err);
+  },
+  async delsite(v){await api('delSite',{token:cur.tok,id:v});await loadSites()}
+};
+
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-act]');
+  if(!t)return;
+  e.preventDefault();
+  const f=A[t.dataset.act];
+  if(f){if(busy)return;const r=f(t.dataset.v);if(r&&r.then){busy=true;const el=$('.err');if(el)el.textContent='處理中…';r.finally(()=>{busy=false;render()})}else render()}
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.matches('input')){const b=document.querySelector('.auth .pri');if(b)b.click()}
+});
+render();
+(async()=>{
+  const [,r]=await Promise.all([loadSites(),cur?api('me',{token:cur.tok}):null]);
+  if(r&&r.ok){if(cur.t==='u'){cur={...cur,...r.user};sv('cur',cur)}else await loadUsers()}
+  if(!showLogin)render();
+})();
+</script>
+</body>
+</html>
