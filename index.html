@@ -69,7 +69,7 @@ footer{text-align:center;color:var(--mu);font-size:.85rem;margin:32px 0 8px}
 </style>
 </head>
 <body>
-<div class="wrap"><div id="bar"></div><h1>學習網站推薦</h1><div id="app"></div><footer>版本 1.1</footer></div>
+<div class="wrap"><div id="bar"></div><h1>學習網站推薦</h1><div id="app"></div><footer>版本 1.0</footer></div>
 <script>
 const AV=['😆','👦🏻','☺️','🤫','🤓','🫪','😉','😭','🥰','🥹','😀','🙂'];
 const DEF=AV[AV.length-1];
@@ -115,20 +115,9 @@ const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}ca
 const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-let users=[],extra=[],cur=ld('cur',null),busy=false;
-const API='';// ← 貼上 Apps Script「網頁應用程式網址」（結尾是 /exec）
-async function api(action,d={}){
-  if(!API)return{ok:false,err:'尚未設定後端網址'};
-  try{
-    const r=await(await fetch(API,{method:'POST',body:JSON.stringify({action,...d})})).json();
-    if(!r.ok&&r.code==='auth'){cur=null;sv('cur',null)}
-    return r;
-  }catch(e){return{ok:false,err:'連線失敗，請稍後再試'}}
-}
-async function loadSites(){const r=await api('list');if(r.ok)extra=r.sites}
-async function loadUsers(){const r=await api('users',{token:cur.tok});if(r.ok)users=r.users}
+let users=ld('users',[]),extra=ld('extra',[]),cur=ld('cur',null);
 let tab='user',mode='login',msg='',showSet=false,showLogin=false,first=true,pop=false;
-const me=()=>cur&&cur.t==='u'?cur:null;
+const me=()=>cur&&cur.t==='u'?users.find(x=>x.n===cur.n):null;
 
 function auth(){
   const on=v=>tab===v?'on':'';
@@ -162,7 +151,7 @@ function main(){
   let h='';
   if(isAd)h+=admin();
   CATS.forEach((c,i)=>{
-    h+=`<h2>${c}</h2><div class="grid">`+all.filter(s=>s[0]===i).map(s=>`<div class="card site"><a href="${esc(s[2])}" target="_blank" rel="noopener noreferrer"><b>${esc(s[1])}</b><small>${esc(s[3])}</small></a>${isAd&&extra.includes(s)?`<button class="x" data-act="delsite" data-v="${esc(s[4])}" aria-label="刪除網站">✕</button>`:''}</div>`).join('')+'</div>';
+    h+=`<h2>${c}</h2><div class="grid">`+all.filter(s=>s[0]===i).map(s=>`<div class="card site"><a href="${esc(s[2])}" target="_blank" rel="noopener noreferrer"><b>${esc(s[1])}</b><small>${esc(s[3])}</small></a>${isAd&&extra.includes(s)?`<button class="x" data-act="delsite" data-v="${extra.indexOf(s)}" aria-label="刪除網站">✕</button>`:''}</div>`).join('')+'</div>';
   });
   return h;
 }
@@ -181,36 +170,33 @@ function render(){
 const A={
   tab(v){tab=v;msg=''},
   mode(v){mode=v;msg=''},
-  openlogin(){showLogin=true;pop=true;msg='';tab='user';mode='login'},
-  closelogin(){showLogin=false;msg=''},
-  async adm(){
-    const r=await api('adminLogin',{p:$('#ap').value});
-    if(r.ok){cur={t:'a',tok:r.token};sv('cur',cur);msg='';showLogin=false;await loadUsers()}else msg=r.err;
+  adm(){if($('#ap').value===ADMIN){cur={t:'a'};sv('cur',cur);msg='';showLogin=false}else msg='管理員密碼錯誤'},
+  login(){
+    const n=$('#un').value.trim(),p=$('#pw').value;
+    if(users.some(x=>x.n===n&&x.p===p)){cur={t:'u',n};sv('cur',cur);msg='';showLogin=false}else msg='名字或密碼錯誤';
   },
-  async login(){
-    const r=await api('login',{n:$('#un').value.trim(),p:$('#pw').value});
-    if(r.ok){cur={t:'u',tok:r.token,...r.user};sv('cur',cur);msg='';showLogin=false}else msg=r.err;
-  },
-  async reg(){
+  reg(){
     const n=$('#un').value.trim(),p=$('#pw').value;
     if(!n||!p){msg='請輸入名字和密碼';return}
-    const r=await api('register',{n,p});
-    if(r.ok){cur={t:'u',tok:r.token,...r.user};sv('cur',cur);msg='';showLogin=false;showSet=true;pop=true}else msg=r.err;
+    if(users.some(x=>x.n===n)){msg='這個名字已經有人使用';return}
+    users.push({n,p,a:DEF,th:'light'});sv('users',users);
+    cur={t:'u',n};sv('cur',cur);msg='';showLogin=false;showSet=true;pop=true;
   },
-  out(){cur=null;sv('cur',null);mode='login';tab='user';showSet=false;users=[]},
+  openlogin(){showLogin=true;pop=true;msg='';tab='user';mode='login'},
+  closelogin(){showLogin=false;msg=''},
+  out(){cur=null;sv('cur',null);mode='login';tab='user';showSet=false},
   set(){showSet=true;pop=true},
   done(){showSet=false},
-  av(v){cur.a=v;sv('cur',cur);api('update',{token:cur.tok,a:v,th:cur.th})},
-  th(v){cur.th=v;sv('cur',cur);api('update',{token:cur.tok,a:cur.a,th:v})},
-  async deluser(v){await api('delUser',{token:cur.tok,n:v});await loadUsers()},
-  async addsite(){
+  av(v){me().a=v;sv('users',users)},
+  th(v){me().th=v;sv('users',users)},
+  deluser(v){users=users.filter(x=>x.n!==v);sv('users',users)},
+  addsite(){
     const n=$('#nn').value.trim();let u=$('#nu').value.trim();
     if(!n||!u)return;
     if(!/^https?:\/\//i.test(u))u='https://'+u;
-    const r=await api('addSite',{token:cur.tok,cat:+$('#nc').value,name:n,url:u,desc:'管理員新增'});
-    if(r.ok)await loadSites();else alert(r.err);
+    extra.push([+$('#nc').value,n,u,'管理員新增']);sv('extra',extra);
   },
-  async delsite(v){await api('delSite',{token:cur.tok,id:v});await loadSites()}
+  delsite(v){extra.splice(+v,1);sv('extra',extra)}
 };
 
 document.addEventListener('click',e=>{
@@ -218,17 +204,12 @@ document.addEventListener('click',e=>{
   if(!t)return;
   e.preventDefault();
   const f=A[t.dataset.act];
-  if(f){if(busy)return;const r=f(t.dataset.v);if(r&&r.then){busy=true;const el=$('.err');if(el)el.textContent='處理中…';r.finally(()=>{busy=false;render()})}else render()}
+  if(f){f(t.dataset.v);render()}
 });
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&e.target.matches('input')){const b=document.querySelector('.auth .pri');if(b)b.click()}
 });
 render();
-(async()=>{
-  const [,r]=await Promise.all([loadSites(),cur?api('me',{token:cur.tok}):null]);
-  if(r&&r.ok){if(cur.t==='u'){cur={...cur,...r.user};sv('cur',cur)}else await loadUsers()}
-  if(!showLogin)render();
-})();
 </script>
 </body>
 </html>
